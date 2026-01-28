@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(ParallelComputingAlgorithm
         BlockingQueue.h
+        ThreadPool.cpp
 )
 
 target_include_directories(ParallelComputingAlgorithm PRIVATE .)
