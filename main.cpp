@@ -1,16 +1,23 @@
 #include <iostream>
 #include <chrono>
+#include <algorithm>
 #include "ThreadPool.h"
 
 int main() {
+
+    std::vector<std::string> files = {
+        "file_test_1.txt",
+        "file_test_2.txt",
+        "file_test_3.txt"
+    };
+
     int numThreads = std::thread::hardware_concurrency();
     if (numThreads == 0) numThreads = 4;
 
-    std::vector<std::string> files = {
-        "test_file_1.txt",
-        "test_file_2.txt",
-        "test_file_3.txt"
-    };
+    numThreads = std::min(numThreads, static_cast<int>(files.size()));
+
+    std::cout << "Using " << numThreads << " threads for "
+              << files.size() << " files" << std::endl;
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -23,7 +30,6 @@ int main() {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
     std::cout << "\nResult:" << std::endl;
-
     std::cout << "Total lines: " << pool.getTotalLines() << std::endl;
     std::cout << "Files processed: " << pool.getProcessedFiles() << std::endl;
     std::cout << "Threads used: " << pool.getThreadCount() << std::endl;
